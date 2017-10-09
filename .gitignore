@@ -1,0 +1,5 @@
+# IntelliJ ignore
+.idea/*
+
+# User stuff, like dolphin
+.directory
