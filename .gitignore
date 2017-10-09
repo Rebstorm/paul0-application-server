@@ -1,5 +1,8 @@
 # IntelliJ ignore
-.idea/*
+.idea/
+
+#out, compiled stuff
+out/
 
 # User stuff, like dolphin
 .directory
