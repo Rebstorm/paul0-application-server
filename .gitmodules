@@ -1,0 +1,3 @@
+[submodule "resource/new-websiter"]
+	path = resource/new-websiter
+	url = https://github.com/Rebstorm/new-websiter.git
