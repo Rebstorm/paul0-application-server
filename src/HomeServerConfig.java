@@ -34,7 +34,8 @@ public class HomeServerConfig{
         ResourceHandler rHandler = new ResourceHandler();
         rHandler.setDirectoriesListed(false);
         rHandler.setWelcomeFiles(new String[]{ "index.html" });
-        rHandler.setResourceBase("../resource/");
+        rHandler.setResourceBase("../resource/new-websiter");
+        rHandler.setDirAllowed(true);
         resourceBase.setHandler(rHandler);
 
         // Possible servlet lists, for all servlets or custom services you want to access later.
