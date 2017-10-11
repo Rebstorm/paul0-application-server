@@ -1,0 +1,5 @@
+<settings>
+    <port>80</port>
+    <secureport>443</secureport>
+    <htmlroot>resource/new-websiter</htmlroot>
+</settings>
