@@ -1,3 +1,4 @@
+import com.sun.jndi.toolkit.url.Uri;
 import handlers.QuestionHandler;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -9,9 +10,11 @@ import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
+import util.Util;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
+import java.net.URI;
 
 public class HomeServerConfig{
 
@@ -20,11 +23,12 @@ public class HomeServerConfig{
     public HomeServerConfig() throws Exception{
         s = new Server(8080);
         s.setHandler(getAllServices());
+        //s.setErrorHandler(getErrorHandlers(root));
+
     }
 
     public void startHomeServer() throws Exception {
-
-        if(s != null){
+        if(s != null && !s.isStarted()){
             s.start();
             s.join();
         } else {
@@ -36,11 +40,8 @@ public class HomeServerConfig{
         // File server & Context Handler for root, also setting the index.html
         // to be the "welcome file", i.e, autolink on root addresses.
         ContextHandler rootContext = new ContextHandler();
-        rootContext.setContextPath(".");
+        rootContext.setContextPath("/*");
         rootContext.setHandler(getResourceHandlers());
-
-        // Get error handlers & set it!
-        rootContext.setErrorHandler(getErrorHandlers());
 
         // Possible servlet lists, for all servlets or custom services you want to access later.
         // Warning, it might become a little bit nested if you add to many classes.
@@ -55,17 +56,6 @@ public class HomeServerConfig{
         });
 
         return handlers;
-    }
-
-    private ErrorHandler getErrorHandlers() throws Exception {
-        ErrorHandler e = new ErrorHandler();
-
-        // This be the error handler
-        ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
-        errorHandler.addErrorPage(404, "../resource/new-website/404.html");
-        e.addBean(errorHandler);
-        e.setServer(s);
-        return e;
     }
 
     private ResourceHandler getResourceHandlers(){
