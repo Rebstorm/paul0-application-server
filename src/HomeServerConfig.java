@@ -9,7 +9,9 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.webapp.WebAppContext;
+import util.Settings;
 import util.Util;
 
 import javax.servlet.Servlet;
@@ -19,11 +21,21 @@ import java.net.URI;
 public class HomeServerConfig{
 
     Server s;
+    Settings settings = new Settings();
 
     public HomeServerConfig() throws Exception{
-        s = new Server(8080);
+        try {
+            settings = Util.getSettings();
+            System.out.println("[OK] Settings loaded.");
+        } catch(Exception e){
+            System.out.println("[FATAL ERROR] Error reading the settings file, reverting to normal dev settings");
+            settings.setPort(8080);
+            settings.setSecurePort(443);
+            settings.setWebsiteRoot("../resource/new-websiter");
+        }
+
+        s = new Server(settings.getPort());
         s.setHandler(getAllServices());
-        //s.setErrorHandler(getErrorHandlers(root));
 
     }
 
@@ -62,7 +74,7 @@ public class HomeServerConfig{
         ResourceHandler rHandler = new ResourceHandler();
         rHandler.setDirectoriesListed(false);
         rHandler.setWelcomeFiles(new String[]{ "index.html" });
-        rHandler.setResourceBase("../resource/new-websiter");
+        rHandler.setResourceBase(settings.getWebsiteRoot());
         rHandler.setDirAllowed(false);
 
         return rHandler;
