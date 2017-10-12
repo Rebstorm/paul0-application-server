@@ -6,3 +6,7 @@ out/
 
 # User stuff, like dolphin
 .directory
+
+
+#keygen and ssls
+*.jks

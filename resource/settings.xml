@@ -2,4 +2,5 @@
     <port>8080</port>
     <secureport>443</secureport>
     <htmlroot>../resource/new-websiter</htmlroot>
+    <sslcert>../resource/sslcerts/keystore.jks</sslcert>
 </settings>

@@ -1,13 +1,19 @@
 import handlers.QuestionHandler;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import util.Settings;
 import util.Util;
 
+import javax.net.ssl.SSLContext;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,6 +27,8 @@ public class HomeServerConfig{
     public HomeServerConfig() throws Exception{
         try {
             settings = Util.getSettings();
+
+
             log.log(Level.INFO, "Server Started and loaded from system settings.");
         } catch(Exception e){
             log.log(Level.SEVERE, "Cannot load the system settings. " + e );
@@ -28,7 +36,8 @@ public class HomeServerConfig{
             settings.setSecurePort(443);
             settings.setWebsiteRoot("../resource/new-websiter");
         } finally {
-            s = new Server(settings.getPort());
+            s = new Server();
+            s.setConnectors(getAllConnectors());
             s.setHandler(getAllServices());
         }
 
@@ -65,6 +74,28 @@ public class HomeServerConfig{
         });
 
         return handlers;
+    }
+
+
+    private Connector[] getAllConnectors(){
+
+        ServerConnector httpsConnector = new ServerConnector(s);
+        httpsConnector.setPort(settings.getSecurePort());
+
+        HttpConfiguration https = new HttpConfiguration();
+        https.addCustomizer(new SecureRequestCustomizer());
+
+        SslContextFactory sslContextFactory = new SslContextFactory();
+        sslContextFactory.setKeyStorePath("path/to/keychain");
+
+
+        Connector[] connectors = new Connector[]{
+                httpsConnector,
+
+        };
+
+        return connectors;
+
     }
 
     private ResourceHandler getResourceHandlers(){
