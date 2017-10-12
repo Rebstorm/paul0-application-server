@@ -1,24 +1,19 @@
-import com.sun.jndi.toolkit.url.Uri;
 import handlers.QuestionHandler;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
-import org.eclipse.jetty.util.log.Log;
-import org.eclipse.jetty.webapp.WebAppContext;
 import util.Settings;
 import util.Util;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
-import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HomeServerConfig{
+
+    Logger log = Logger.getLogger(HomeServerConfig.class.getName());
 
     Server s;
     Settings settings = new Settings();
@@ -26,16 +21,18 @@ public class HomeServerConfig{
     public HomeServerConfig() throws Exception{
         try {
             settings = Util.getSettings();
-            System.out.println("[OK] Settings loaded.");
+            log.log(Level.INFO, "Server Started and loaded from system settings.");
         } catch(Exception e){
-            System.out.println("[FATAL ERROR] Error reading the settings file, reverting to normal dev settings");
+            log.log(Level.SEVERE, "Cannot load the system settings. " + e );
             settings.setPort(8080);
             settings.setSecurePort(443);
             settings.setWebsiteRoot("../resource/new-websiter");
+        } finally {
+            s = new Server(settings.getPort());
+            s.setHandler(getAllServices());
         }
 
-        s = new Server(settings.getPort());
-        s.setHandler(getAllServices());
+
 
     }
 

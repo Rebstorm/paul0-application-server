@@ -1,13 +1,13 @@
 package util;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.util.logging.Logger;
 
 public class Util {
+
+    Logger log = Logger.getLogger(Util.class.getName());
 
     public static String getRunPath() throws Exception {
         return System.getProperty("user.dir");
@@ -26,7 +26,6 @@ public class Util {
             setting.port = Integer.valueOf(document.getElementsByTagName("port").item(i).getFirstChild().getNodeValue());
             setting.securePort = Integer.valueOf(document.getElementsByTagName("secureport").item(i).getFirstChild().getNodeValue());
             setting.websiteRoot = document.getElementsByTagName("htmlroot").item(i).getFirstChild().getNodeValue();
-
         }
 
         return setting;
