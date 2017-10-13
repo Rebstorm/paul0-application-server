@@ -10,4 +10,4 @@ Its a barebone implementation of jetty and allows for custom endpoints.
 Basically, add your endpoint into the HandlerList and add a new class to handle the Mapping. Easy as cake. 
 
 ## Licensing
-All under MIT 2.0. Be kind. Use it wisely. 
+All under MIT. Be kind. Use it wisely. 
