@@ -1,4 +1,6 @@
-<img src="https://i.imgur.com/Z3IKSRO.png" alt="p0 Logo" style="height:50px; width: 50px;"/>
+<p align="center"> 
+  <img src="https://i.imgur.com/Z3IKSRO.png">
+</p>
 
 # paul0
 This is my home application server. 
