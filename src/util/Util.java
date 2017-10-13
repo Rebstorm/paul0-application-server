@@ -23,9 +23,13 @@ public class Util {
         org.w3c.dom.Document document = builder.parse(inputFile);
 
         for(int i = 0; i < document.getElementsByTagName("settings").getLength(); i++){
-            setting.port = Integer.valueOf(document.getElementsByTagName("port").item(i).getFirstChild().getNodeValue());
-            setting.securePort = Integer.valueOf(document.getElementsByTagName("secureport").item(i).getFirstChild().getNodeValue());
-            setting.websiteRoot = document.getElementsByTagName("htmlroot").item(i).getFirstChild().getNodeValue();
+
+            // integers, careful to load string.
+            setting.setPort(Integer.valueOf(document.getElementsByTagName("port").item(i).getFirstChild().getNodeValue()));
+            setting.setSecurePort(Integer.valueOf(document.getElementsByTagName("secureport").item(i).getFirstChild().getNodeValue()));
+            // Website & String vals
+            setting.setWebsiteRoot(document.getElementsByTagName("htmlroot").item(i).getFirstChild().getNodeValue());
+            setting.setSslRoot(document.getElementsByTagName("sslcert").item(i).getFirstChild().getNodeValue());
         }
 
         return setting;
