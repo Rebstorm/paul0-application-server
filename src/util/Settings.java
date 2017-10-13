@@ -4,6 +4,7 @@ public class Settings {
 
     int port;
     int securePort;
+    boolean securePortEnabled;
     String websiteRoot;
     String sslRoot;
 
@@ -21,6 +22,10 @@ public class Settings {
 
     public void setWebsiteRoot(String websiteRoot) {
         this.websiteRoot = websiteRoot;
+    }
+
+    public void setSecurePortEnabled(boolean securePortEnabled) {
+        this.securePortEnabled = securePortEnabled;
     }
 
     public void setSslRoot(String sslRoot) {
@@ -43,5 +48,8 @@ public class Settings {
         return sslRoot;
     }
 
+    public boolean getSecurePortEnabled() {
+        return securePortEnabled;
+    }
 }
 

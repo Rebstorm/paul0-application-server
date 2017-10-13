@@ -16,6 +16,8 @@ import util.Settings;
 import util.Util;
 
 import javax.net.ssl.SSLContext;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,31 +70,34 @@ public class HomeServerConfig{
 
     private Connector[] getAllConnectors(){
 
+        List<ServerConnector> availableConnectors = new ArrayList<>();
+
         ServerConnector httpConnector = new ServerConnector(s);
         httpConnector.setPort(settings.getPort());
 
         HttpConfiguration https = new HttpConfiguration();
         https.addCustomizer(new SecureRequestCustomizer());
 
-        SslContextFactory sslContextFactory = new SslContextFactory();
-        sslContextFactory.setKeyStorePath(settings.getSslRoot());
-        // The keys used (just from my simple example), TODO: Remove hardcoding of the pw. This is disgusting Paul!
-        sslContextFactory.setKeyStorePassword("123456");
-        sslContextFactory.setKeyManagerPassword("123456");
+        availableConnectors.add(httpConnector);
 
-        ServerConnector httpsConnector = new ServerConnector(s,
-                new SslConnectionFactory(sslContextFactory, "http/1.1"),
-                new HttpConnectionFactory(https));
-        httpsConnector.setPort(settings.getSecurePort());
+        if(settings.getSecurePortEnabled()){
+            SslContextFactory sslContextFactory = new SslContextFactory();
+            sslContextFactory.setKeyStorePath(settings.getSslRoot());
+            // The keys used (just from my simple example), TODO: Remove hardcoding of the pw. This is disgusting Paul!
+            sslContextFactory.setKeyStorePassword("123456");
+            sslContextFactory.setKeyManagerPassword("123456");
 
+            ServerConnector httpsConnector = new ServerConnector(s,
+                    new SslConnectionFactory(sslContextFactory, "http/1.1"),
+                    new HttpConnectionFactory(https));
 
+            httpsConnector.setPort(settings.getSecurePort());
 
-        Connector[] connectors = new Connector[]{
-                httpConnector,
-                //httpsConnector, <-- Will use Apache instead.
-        };
+            availableConnectors.add(httpsConnector);
 
-        return connectors;
+        }
+
+        return availableConnectors.toArray(new Connector[availableConnectors.size()]);
 
     }
 

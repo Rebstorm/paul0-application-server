@@ -1,5 +1,8 @@
 package util;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.w3c.dom.Element;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -14,7 +17,7 @@ public class Util {
         return System.getProperty("user.dir");
     }
 
-    public static Settings getSettings() throws Exception{
+    public static Settings getSettings(){
 
         Settings setting = new Settings();
         try {
@@ -29,7 +32,13 @@ public class Util {
 
                 // integers, careful to load string.
                 setting.setPort(Integer.valueOf(document.getElementsByTagName("port").item(i).getFirstChild().getNodeValue()));
+
+
+                // Secure settings stuff if you dont want to run a server above it.
+                Element secureSettings = (Element)document.getElementsByTagName("secureport").item(i);
                 setting.setSecurePort(Integer.valueOf(document.getElementsByTagName("secureport").item(i).getFirstChild().getNodeValue()));
+                setting.setSecurePortEnabled(Boolean.valueOf(secureSettings.getAttribute("enabled")));
+
                 // Website & String vals
                 setting.setWebsiteRoot(document.getElementsByTagName("htmlroot").item(i).getFirstChild().getNodeValue());
                 setting.setSslRoot(document.getElementsByTagName("sslcert").item(i).getFirstChild().getNodeValue());
@@ -39,10 +48,11 @@ public class Util {
 
         } catch(Exception e){
             log.log(Level.SEVERE, "Cannot load the system settings. " + e );
-            setting.setPort(8080);
-            setting.setSecurePort(8081);
+            setting.setPort(9006);
+            setting.setSecurePort(9007);
             setting.setWebsiteRoot("../resource/new-websiter");
             setting.setSslRoot("butts");
+            setting.setSecurePortEnabled(false);
 
             return setting;
         }
