@@ -27,30 +27,17 @@ public class HomeServerConfig{
     Settings settings = new Settings();
 
     public HomeServerConfig() throws Exception{
-        try {
             settings = Util.getSettings();
-
-
-            log.log(Level.INFO, "Server Started and loaded from system settings.");
-        } catch(Exception e){
-            log.log(Level.SEVERE, "Cannot load the system settings. " + e );
-            settings.setPort(8080);
-            settings.setSecurePort(8081);
-            settings.setWebsiteRoot("../resource/new-websiter");
-        } finally {
             s = new Server();
             s.setConnectors(getAllConnectors());
             s.setHandler(getAllServices());
-        }
-
-
-
     }
 
     public void startHomeServer() throws Exception {
         if(s != null && !s.isStarted()){
             s.start();
             s.join();
+            log.log(Level.INFO, "Server Started successfully");
         } else {
             throw new RuntimeException("Initialize the server before you start it, genious");
         }
