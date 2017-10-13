@@ -1,4 +1,4 @@
-![p0 logo](https://i.imgur.com/vCUfr6I.png)
+![p0 logo](https://i.imgur.com/Z3IKSRO.png =100x20)
 
 # paul0
 This is my home application server. 
