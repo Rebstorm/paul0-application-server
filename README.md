@@ -1,4 +1,4 @@
-![p0 logo](https://i.imgur.com/Z3IKSRO.png =100x20)
+<img src="https://i.imgur.com/Z3IKSRO.png" alt="p0 Logo" style="height:50px; width: 50px;"/>
 
 # paul0
 This is my home application server. 
