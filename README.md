@@ -1,3 +1,5 @@
+![p0 logo](https://i.imgur.com/kb7VN0q.png)
+
 # paul0
 This is my home application server. 
 Its a barebone implementation of jetty and allows for custom endpoints.
