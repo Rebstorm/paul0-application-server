@@ -1,6 +1,5 @@
 package util;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,19 +19,24 @@ public class Util {
     public static Settings getSettings(){
 
         Settings setting = new Settings();
+        String appendageDev = "";
         try {
 
             File inputFile = new File("../resource/settings.xml");
+
+            if(!inputFile.exists()){
+                inputFile = new File("../paul0/resource/settings.xml");
+                appendageDev = "../paul0/";
+            }
+
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             org.w3c.dom.Document document = builder.parse(inputFile);
 
 
             for (int i = 0; i < document.getElementsByTagName("settings").getLength(); i++) {
-
                 // integers, careful to load string.
                 setting.setPort(Integer.valueOf(document.getElementsByTagName("port").item(i).getFirstChild().getNodeValue()));
-
 
                 // Secure settings stuff if you dont want to run a server above it.
                 Element secureSettings = (Element)document.getElementsByTagName("secureport").item(i);
@@ -40,17 +44,17 @@ public class Util {
                 setting.setSecurePortEnabled(Boolean.valueOf(secureSettings.getAttribute("enabled")));
 
                 // Website & String vals
-                setting.setWebsiteRoot(document.getElementsByTagName("htmlroot").item(i).getFirstChild().getNodeValue());
-                setting.setSslRoot(document.getElementsByTagName("sslcert").item(i).getFirstChild().getNodeValue());
+                setting.setWebsiteRoot(appendageDev + document.getElementsByTagName("htmlroot").item(i).getFirstChild().getNodeValue());
+                setting.setSslRoot(appendageDev + document.getElementsByTagName("sslcert").item(i).getFirstChild().getNodeValue());
             }
 
             return setting;
 
         } catch(Exception e){
             log.log(Level.SEVERE, "Cannot load the system settings. " + e );
-            setting.setPort(9006);
-            setting.setSecurePort(9007);
-            setting.setWebsiteRoot("../resource/new-websiter");
+            setting.setPort(9000);
+            setting.setSecurePort(9001);
+            setting.setWebsiteRoot("/new-websiter");
             setting.setSslRoot("butts");
             setting.setSecurePortEnabled(false);
 

@@ -1,6 +1,0 @@
-<settings>
-    <port>9090</port>
-    <secureport enabled="false">9091</secureport>
-    <htmlroot>../../resource/new-websiter</htmlroot>
-    <sslcert>../resource/sslcerts/keystore.jks</sslcert>
-</settings>
