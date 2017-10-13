@@ -16,13 +16,13 @@ public class Util {
         return System.getProperty("user.dir");
     }
 
-    public static Settings getSettings(){
+    public static Settings getSettings(String configPath){
 
         Settings setting = new Settings();
         String appendageDev = "";
         try {
 
-            File inputFile = new File("../resource/settings.xml");
+            File inputFile = new File(configPath);
 
             if(!inputFile.exists()){
                 inputFile = new File("../paul0/resource/settings.xml");

@@ -28,8 +28,8 @@ public class HomeServerConfig{
     Server s;
     Settings settings = new Settings();
 
-    public HomeServerConfig() throws Exception{
-            settings = Util.getSettings();
+    public HomeServerConfig(String configPath) throws Exception{
+            settings = Util.getSettings(configPath);
             s = new Server();
             s.setConnectors(getAllConnectors());
             s.setHandler(getAllServices());
