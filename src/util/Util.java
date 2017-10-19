@@ -23,12 +23,10 @@ public class Util {
         try {
 
             File inputFile = new File(configPath);
-
             if(!inputFile.exists()){
                 inputFile = new File("../paul0/resource/settings.xml");
                 appendageDev = "../paul0/";
             }
-
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             org.w3c.dom.Document document = builder.parse(inputFile);
